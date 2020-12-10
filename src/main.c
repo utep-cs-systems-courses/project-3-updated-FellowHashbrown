@@ -6,8 +6,7 @@
 #include "lcdutils.h"
 #include "lcddraw.h"
 #include "stateMachine.h"
-
-short redrawScreen = 1;
+#include "main.h"
 
 int main()
 {
