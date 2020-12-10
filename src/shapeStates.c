@@ -1,7 +1,9 @@
 #include <msp430.h>
 #include <lcdutils.h>
+#include <lcddraw.h>
 #include "draw.h"
 #include "shapeStates.h"
+#include "main.h"
 
 #define W COLOR_WHITE
 #define B COLOR_BLACK
@@ -10,27 +12,55 @@
 
 void state1()
 {
+  static char state = 0;
+  int color = W;
+  switch (state) {
+  case 0:
+    color = R;
+    state++;
+    break;
+  case 1:
+    color = W;
+    state = 0;
+    break;
+  }
+
   clearScreen(B);
   drawSquare((screenWidth / 2),
 	     (screenHeight/ 2),
-	     10, 10, W);
+	     11, 11, color);
   drawSquare((screenWidth / 2),
 	     (screenHeight/ 2),
 	     5, 5, B);
+  redrawScreen = 1;
 }
 
 void state2()
 {
+  static char state = 0;
+  int color = W;
+  switch (state) {
+  case 0:
+    color = O;
+    state++;
+    break;
+  case 1:
+    color = W;
+    state = 0;
+    break;
+  }
+  
   clearScreen(B);
   drawSquare((screenWidth / 2),
 	     (screenHeight/ 2),
-	     15, 15, W);
+	     15, 15, color);
   drawSquare((screenWidth / 2),
 	     (screenHeight/ 2),
-	     10, 10, B);
+	     11, 11, B);
   drawSquare((screenWidth / 2),
 	     (screenHeight/ 2),
-	     5, 5, W);
+	     5, 5, color);
+  redrawScreen = 1;
 }
 
 void state3()
@@ -43,13 +73,18 @@ void state3()
 
 void state4()
 {
-  clearScreen(B);
-  centerString8x12(15, "Button 1", W, B);
-  centerString8x12(30, "Fur Elise", W, B);
   
-  centerString8x12(45, "Button 2", R, B);
-  centerString8x12(60, "In the Hall of", R, B);
-  centerString8x12(75, "the Mountain King", R, B);
-  centerString8x12(90, "Button 3", O, B);
-  centerString8x12(105, "Rickroll'd", O, B);
+  clearScreen(B);
+  
+  centerString8x12(30, "Button 1", W, B);
+  centerString8x12(45, "Fur Elise", W, B);
+  
+  centerString8x12(60, "Button 2", R, B);
+  centerString8x12(75, "In the Hall of", R, B);
+  centerString8x12(90, "the Mountain King", R, B);
+  
+  centerString8x12(105, "Button 3", O, B);
+  centerString8x12(120, "Rickroll'd", O, B);
+
+  redrawScreen = 0;
 }

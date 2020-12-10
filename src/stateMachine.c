@@ -38,6 +38,7 @@ void song_advance()
 {
   static char song_count = 0;
   if (++song_count == 20) {
+    shape_advance();
     switch (switch_state_changed) {
       case 1:
 	song_1();
@@ -59,8 +60,8 @@ void song_advance()
 void shape_advance()
 {
   static char shape_count = 0;
-  if (shape_count = 0) {
-    shape_count = 1;
+  if (++shape_count == 20) {
+    shape_count = 0;
     switch (switch_state_changed) {
     case 1:
       // an empty square
