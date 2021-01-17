@@ -1,90 +1,70 @@
 #include <msp430.h>
-#include <lcdutils.h>
-#include <lcddraw.h>
+#include "lcdutils.h"
+#include "lcddraw.h"
 #include "draw.h"
 #include "shapeStates.h"
-#include "main.h"
-
-#define W COLOR_WHITE
-#define B COLOR_BLACK
-#define R COLOR_RED
-#define O COLOR_DARK_ORANGE
 
 void state1()
 {
-  static char state = 0;
-  int color = W;
-  switch (state) {
+  static char s1_state = 0;
+  u_int color;
+  switch (s1_state) {
   case 0:
-    color = R;
-    state++;
+    color = COLOR_WHITE;
+    s1_state++;
     break;
   case 1:
-    color = W;
-    state = 0;
+    color = COLOR_RED;
+    s1_state = 0;
     break;
   }
-
-  clearScreen(B);
-  drawSquare((screenWidth / 2),
-	     (screenHeight/ 2),
+  drawSquare(screenWidth / 2,
+	     screenHeight/ 2,
 	     11, 11, color);
-  drawSquare((screenWidth / 2),
-	     (screenHeight/ 2),
-	     5, 5, B);
-  redrawScreen = 1;
 }
 
 void state2()
 {
-  static char state = 0;
-  int color = W;
-  switch (state) {
+  static char s2_state = 0;
+  u_int color;
+  switch (s2_state) {
   case 0:
-    color = O;
-    state++;
+    color = COLOR_DARK_ORANGE;
+    s2_state++;
     break;
   case 1:
-    color = W;
-    state = 0;
+  case 2:
+    color = COLOR_RED;
+    s2_state++;
+    break;
+  case 3:
+    color = COLOR_WHITE;
+    s2_state = 0;
     break;
   }
-  
-  clearScreen(B);
-  drawSquare((screenWidth / 2),
-	     (screenHeight/ 2),
+  drawSquare(screenWidth / 2,
+	     screenHeight/ 2,
 	     15, 15, color);
-  drawSquare((screenWidth / 2),
-	     (screenHeight/ 2),
-	     11, 11, B);
-  drawSquare((screenWidth / 2),
-	     (screenHeight/ 2),
-	     5, 5, color);
-  redrawScreen = 1;
 }
 
 void state3()
 {
   state2();
-  drawSquare((screenWidth / 2),
-	     (screenHeight/ 2),
-	     3, 3, R);
+  drawSquare(screenWidth / 2,
+	     screenHeight/ 2,
+	     11, 11, COLOR_BLACK);
 }
 
 void state4()
 {
-  
-  clearScreen(B);
-  
-  centerString8x12(30, "Button 1", W, B);
-  centerString8x12(45, "Fur Elise", W, B);
-  
-  centerString8x12(60, "Button 2", R, B);
-  centerString8x12(75, "In the Hall of", R, B);
-  centerString8x12(90, "the Mountain King", R, B);
-  
-  centerString8x12(105, "Button 3", O, B);
-  centerString8x12(120, "Rickroll'd", O, B);
-
-  redrawScreen = 0;
+  drawString8x12(0, 0, "Hello! and now", COLOR_WHITE, COLOR_BLACK);
+  drawString8x12(0, 15, "Among Us:", COLOR_WHITE, COLOR_BLACK);
+  drawString8x12(0, 30, "---------", COLOR_WHITE, COLOR_BLACK);
+  drawString8x12(0, 45, "> where?", COLOR_RED, COLOR_BLACK);
+  drawString8x12(0, 60, "> where?", COLOR_GREEN, COLOR_BLACK);
+  drawString8x12(0, 75, "> elec", COLOR_BLUE, COLOR_BLACK);
+  drawString8x12(0, 90, "> any sus?", COLOR_RED, COLOR_BLACK);
+  drawString8x12(0, 105, "> you because", COLOR_BLUE, COLOR_BLACK);
+  drawString8x12(0, 120, "  you're red", COLOR_BLUE, COLOR_BLACK);
+  drawString8x12(0, 135, "> *I Voted*", COLOR_GREEN, COLOR_BLACK);
 }
