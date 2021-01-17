@@ -6,7 +6,6 @@ void buzzer_set_period(short cycles);
 void song_1();
 void song_2();
 void song_3();
-void c_scale(short direction);
-void stop();
+void stop_song();
 
 #endif

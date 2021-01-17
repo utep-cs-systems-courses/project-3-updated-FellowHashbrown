@@ -2,7 +2,6 @@
 #include "buzz.h"
 #include "notes.h"
 #include "libTimer.h"
-#include "switches.h"
 
 static short song1Counter = 0;
 static short song2Counter = 0;
@@ -111,7 +110,7 @@ void song_3()
   }
 }
 
-void stop()
+void stop_song()
 {
   buzzer_set_period(0);
 }
