@@ -24,5 +24,6 @@ box will be rendered on the LCD while flashing orange, red, and white
 The same shape as Button 2 will show up but with a red square in the middle.
 
 ### Button 4
-The sounds will stop and you will be given a link on how to quickly gain
-bitcoin. Which you can also view [here](https://youtube.com/watch?v=dQw4w9WgXcQ)!
+The sounds will stop and you will be given some text that looks like chat on
+*Among Us*. Also, a link on how to quickly gain
+bitcoin will be shown which you can also view [here](https://youtube.com/watch?v=dQw4w9WgXcQ)!
