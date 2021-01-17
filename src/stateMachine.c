@@ -2,85 +2,49 @@
 #include "stateMachine.h"
 #include "led.h"
 #include "buzz.h"
-#include "switches.h"
-#include "shapeStates.h"
+#include "p2switches.h"
 
 void state_advance()
 {
-  char changed = 0;
-  static char blink_count = 0;
-  switch (switch_state_changed) {
-  case 1:
+  static char blink_state = 0;
+  switch (blink_state) {
+  case 0:
     dim_75();
-    changed = 1;
+    blink_state++;
+    break;
+  case 1:
+    dim_50();
+    blink_state++;
     break;
   case 2:
-    dim_50();
-    changed = 1;
+    dim_25();
+    blink_state++;
     break;
   case 3:
-    dim_25();
-    changed = 1;
-    break;
-  case 4:
-    if (++blink_count == 125) {
-      binary_led();
-      blink_count = 0;
-    }
-    changed = 1;
+    toggle_off();
+    blink_state = 0;
     break;
   }
 
-  led_changed = changed;
+  led_changed = 1;
 }
 
+/*
 void song_advance()
 {
-  static char song_count = 0;
-  if (++song_count == 20) {
-    shape_advance();
-    switch (switch_state_changed) {
-      case 1:
+    switch (button_state) {
+      case 0:
 	song_1();
 	break;
-      case 2:
+      case 1:
         song_2();
 	break;
-      case 3:
+      case 2:
 	song_3();
 	break;
-      case 4:
-	stop();
+      case 3:
+	buzzer_set_period(0);
 	break;
-    }
-    song_count = 0;
   }
 }
-
-void shape_advance()
-{
-  static char shape_count = 0;
-  if (++shape_count == 20) {
-    shape_count = 0;
-    switch (switch_state_changed) {
-    case 1:
-      // an empty square
-      state1();
-      break;
-    case 2:
-      // an empty square with another
-      //  square inside of it
-      state2();
-      break;
-    case 3:
-      // the same thing as state 2
-      //  but with a red square inside of it
-      state3();
-      break;
-    case 4:
-      // text saying what each button does
-      state4();
-      break;
-    }
-  }
-}
+*/
