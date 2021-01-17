@@ -1,5 +1,14 @@
 # Project 3 - LCD and Sounds and LEDs
 
+## How to Install
+
+### Library Installation
+Go to the main directory `project-3-updated-FellowHashbrown` and run the
+command `make all`
+
+### Load to MSP430
+Move to the `src` directory and run the command `make load`
+
 ## How it Works
 
 ### Button 1
