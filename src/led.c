@@ -1,6 +1,5 @@
 #include <msp430.h>
 #include "led.h"
-#include "switches.h"
 
 static char red[] = {0, RED}, green[] = {0, GREEN};
 
@@ -35,7 +34,6 @@ void dim_75()
     case 4:
     case 5:
       red_on = 1;
-      green_on = 1;
       if (++red_led_state == 6) {
         red_led_state = 0;
       }
@@ -43,7 +41,6 @@ void dim_75()
     case 0:
     case 1:
       red_on = 0;
-      green_on = 0;
       red_led_state++;
       break;
   }
@@ -52,21 +49,19 @@ void dim_75()
 
 void dim_50()
 {
-  switch (green_led_state) {
+  switch (red_led_state) {
     case 0:
     case 1:
     case 2:
-      green_on = 1;
       red_on = 1;
-      green_led_state++;
+      red_led_state++;
       break;
     case 3:
     case 4:
     case 5:
-      green_on = 0;
       red_on = 0;
-      if (++green_led_state == 6) {
-        green_led_state = 0;
+      if (++red_led_state == 6) {
+        red_led_state = 0;
       }
       break;
   }
@@ -81,7 +76,6 @@ void dim_25()
     case 4:
     case 5:
       red_on = 0;
-      green_on = 0;
       if (++red_led_state == 6) {
         red_led_state = 0;
       }
@@ -89,79 +83,49 @@ void dim_25()
     case 0:
     case 1:
       red_on = 1;
-      green_on = 1;
       red_led_state++;
       break;
   }
   led_changed = 1;
 }
 
-void binary_led()
+void dimming_states()
 {
-  switch (red_led_state) {
+  static char dim_state = 0;
+  switch (dim_state) {
   case 0:
-    red_on = 0;
-    green_on = 0;
-    red_led_state++;
+    dim_75();
+    dim_state++;
     break;
-  case 1:
-    red_on = 1;
-    red_led_state++;
+  case 6:
+  case 18:
+    dim_50();
+    dim_state++;
     break;
-  case 2:
-    red_on = 0;
-    green_on = 1;
-    red_led_state++;
+  case 12:
+    dim_25();
+    dim_state++;
     break;
-  case 3:
-    red_on = 1;
-    red_led_state = 0;
+  case 23:
+    dim_state = 0;
     break;
+  default:
+    dim_state++;
   }
 }
+
 void toggle_red()
 {
-  switch (red_led_state) {
-  case 0: case 2:
-    red_on = 1;
-    if(++red_led_state == 3) {
-      red_led_state = 0;
-    }
-    break;
-  case 1: case 3:
+  if (red_on) {
     red_on = 0;
-    red_led_state++;
-    break;
+  } else {
+    red_on = 1;
   }
-  led_changed = 1;
-}
-
-void toggle_green()
-{
-  switch (green_led_state) {
-  case 0: case 1:
-    green_on = 1;
-    green_led_state++;
-    break;
-  case 2: case 3:
-    green_on = 0;
-    if (++green_led_state == 3) {
-      green_led_state = 0;
-    }
-    break;
-  }
-  led_changed = 1;
-}
-
-void toggle_red_green()
-{
-  toggle_red();
-  toggle_green();
   led_changed = 1;
 }
 
 void toggle_off()
 {
-  red_on = green_on = 0;
+  red_on = 0;
   led_changed = 1;
 }
